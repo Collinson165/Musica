@@ -37,4 +37,12 @@ a {
   }
 }
 
+.progressbar {
+  --progressbarwidth : 66%;
+
+  width: var(--progressbarwidth);;
+
+
+}
+
 

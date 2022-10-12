@@ -7,6 +7,8 @@ import Card from './components/Card'
 import { useEffect, useRef, useState } from 'react'
 import axios from 'axios'
 import { songs } from './components/songs'
+import { topCharts } from './components/top'
+import { useAppContext } from './components/context'
 
 export default function Home() {
   
@@ -14,7 +16,7 @@ export default function Home() {
   const [data, setData] = useState([]);
   const [newSong, setNew] = useState([]);
   const [song, setSong] = useState(songs);
-  const [currentSong, setCurrentSong] = useState(songs[0])
+  const {currentSong, setCurrentSong} = useAppContext();
   
   
   
@@ -27,19 +29,10 @@ export default function Home() {
 
 
   // sets the nowPlaying Album art into the Audio Player section
-  const Playing = (img, src, song) => {
+  const Playing = (song) => {
     setCurrentSong(song)
-    
-    // audioPlayer.current.pause()
-    // audioPlayer.current.load()
-    // setDuration(audioPlayer.current.duration)
-    // audioPlayer.current.play()
-   
-    // setIsPlaying(true)
-    // setNowPlaying(img)
-    // setNowPlayingSong(src)
-    
   }
+
 
  
 
@@ -49,45 +42,45 @@ export default function Home() {
   
 
   // API call for Top Charts
-  useEffect(() => {
-    const options = {
-      method: 'GET',
-      url: 'https://spotify23.p.rapidapi.com/playlist_tracks/',
-      params: {id: '37i9dQZEVXbMDoHDwVN2tF', offset: '0', limit: '3'},
-      headers: {
-        'X-RapidAPI-Key': 'ce2d22d55emsh44258fe5c59c9f7p175afajsn645a4e24eb59',
-        'X-RapidAPI-Host': 'spotify23.p.rapidapi.com'
-      }
-    };
+  // useEffect(() => {
+  //   const options = {
+  //     method: 'GET',
+  //     url: 'https://spotify23.p.rapidapi.com/playlist_tracks/',
+  //     params: {id: '37i9dQZEVXbMDoHDwVN2tF', offset: '0', limit: '3'},
+  //     headers: {
+  //       'X-RapidAPI-Key': 'ce2d22d55emsh44258fe5c59c9f7p175afajsn645a4e24eb59',
+  //       'X-RapidAPI-Host': 'spotify23.p.rapidapi.com'
+  //     }
+  //   };
     
-    axios.request(options).then(function (response) {
-      console.log(response.data);
-      setData(response.data.items)
-    }).catch(function (error) {
-      console.error(error);
-    });
-  }, [])
+  //   axios.request(options).then(function (response) {
+  //     console.log(response.data);
+  //     setData(response.data.items)
+  //   }).catch(function (error) {
+  //     console.error(error);
+  //   });
+  // }, [])
 
 
   // API call for new RELEASE
-  useEffect(() => {
-    const options = {
-      method: 'GET',
-      url: 'https://spotify23.p.rapidapi.com/playlist_tracks/',
-      params: {id: '593HKP3qHQXS0RLZmeeHly', offset: '0', limit: '20'},
-      headers: {
-        'X-RapidAPI-Key': 'ce2d22d55emsh44258fe5c59c9f7p175afajsn645a4e24eb59',
-        'X-RapidAPI-Host': 'spotify23.p.rapidapi.com'
-      }
-    };
+  // useEffect(() => {
+  //   const options = {
+  //     method: 'GET',
+  //     url: 'https://spotify23.p.rapidapi.com/playlist_tracks/',
+  //     params: {id: '593HKP3qHQXS0RLZmeeHly', offset: '0', limit: '20'},
+  //     headers: {
+  //       'X-RapidAPI-Key': 'ce2d22d55emsh44258fe5c59c9f7p175afajsn645a4e24eb59',
+  //       'X-RapidAPI-Host': 'spotify23.p.rapidapi.com'
+  //     }
+  //   };
     
-    axios.request(options).then(function (response) {
-      console.log(response.data);
-      setNew(response.data.items)
-    }).catch(function (error) {
-      console.error(error);
-    });
-  })
+  //   axios.request(options).then(function (response) {
+  //     console.log(response.data);
+  //     setNew(response.data.items)
+  //   }).catch(function (error) {
+  //     console.error(error);
+  //   });
+  // })
 
   return (
     <div className="bg-[#1d2124]">
@@ -133,7 +126,29 @@ export default function Home() {
               })}
               {/* END consume API DATA for Top Charts */}
 
-              <div className='flex justify-between w-72 items-center p-2 my-4 rounded-lg bg-[#1a1e1f] '>
+              {topCharts && topCharts.map(song => {
+                return (
+                  <div key={song.id}>
+                    <div className='flex justify-between w-72 items-center p-2 my-4 rounded-lg bg-[#1a1e1f] '>
+                      <div className='flex overflow-hidden'>
+                        <img src={song.img} alt="" className='max-h-16 z-50' />
+                        <div className='pl-2'>
+                          <h2 className='truncate'>{song.title}</h2>
+                          <p className='text-sm'>{song.artist}</p>
+                          <p>{song.duration}</p>
+                        </div>
+                      </div>
+                      
+                      <div className='flex items-center pr-2'>
+                        <HeartIcon className='h-5 w-5 text-[#facd66] cursor-pointer' />
+                      </div>
+                    </div>
+
+                  </div>
+                )
+              })}
+
+              {/* <div className='flex justify-between w-72 items-center p-2 my-4 rounded-lg bg-[#1a1e1f] '>
                 <div className='flex overflow-hidden'>
                   <img src="/images/lead-image.png" alt="" className='max-h-16 z-50' />
                   <div className='pl-2'>
@@ -176,7 +191,7 @@ export default function Home() {
                 <div className='flex items-center pr-2'>
                   <HeartIcon className='h-5 w-5 text-[#facd66] cursor-pointer' />
                 </div>
-              </div>
+              </div> */}
 
               {/* <div className='flex justify-between w-auto p-2 my-4 rounded-lg bg-[#1a1e1f]'>
                 <img src="/images/lead-image.png" alt="" className='h-16' />
@@ -248,10 +263,7 @@ export default function Home() {
       
 
       <div className='flex items-center h-32 px-5 md:px-16 py-4 w-full fixed bottom-0 backdrop-blur-sm bg-gray-600/10 z-[499]'>
-          
-        
           <PlayerControls currentSong={currentSong} />
-        
       </div>
 
       

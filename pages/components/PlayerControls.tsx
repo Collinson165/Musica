@@ -1,34 +1,60 @@
 /* eslint-disable @next/next/no-img-element */
-import { PlayCircleIcon, ForwardIcon, BackwardIcon, ArrowPathRoundedSquareIcon, ArrowsRightLeftIcon, SpeakerWaveIcon, SpeakerXMarkIcon, PauseIcon } from '@heroicons/react/24/solid'
+import { PlayCircleIcon, ForwardIcon, BackwardIcon, ArrowPathRoundedSquareIcon, ArrowsRightLeftIcon, SpeakerWaveIcon, SpeakerXMarkIcon, PauseIcon } from '@heroicons/react/24/solid';
+
 import { useEffect, useRef, useState } from 'react';
 
 
 const PlayerControls = (props) => {
-  const [currentTime, setCurrentTime ] = useState(0)
-  const [ duration, setDuration] = useState(0)
-  const [nowPlaying, setNowPlaying] = useState('/images/albums/bandana.jpg');
+  const [currentTime, setCurrentTime ] = useState(0);
+  const [duration, setDuration] = useState(1);
   const [isPlaying , setIsPlaying] = useState(false);
-  const [nowPlayingSong, setNowPlayingSong] = useState('/songs/bandana.mp3');
-
+  const [skipRender, setSkipRender] = useState(true);
   const audioPlayer = useRef(null);
-  const progressBar = useRef(null)
+  const progressBar = useRef(null);
 
 
   useEffect(() => {
+    const seconds = Math.floor(audioPlayer.current.duration);
+    if(!isNaN(seconds)){
+      setDuration(seconds);
+      progressBar.current.max = seconds;
+      console.log(calculateTime(duration))
+    }
     
-    setDuration(audioPlayer.current.duration);
-    progressBar.current.max = duration;
   }, [audioPlayer?.current?.loadmetadata, audioPlayer?.current?.readyState])
 
 
+
+  // useEffect(() => {
+  //   const seconds = Math.floor(audioPlayer.current.duration);
+  //   if(seconds){
+  //     setDuration(seconds);
+  //     progressBar.current.max = seconds;
+  //     console.log(audioPlayer.current.duration)
+  //   } 
+  // }, [props.currentSong])
+
+
   useEffect(() => {
+    let controller = new AbortController();
+    if(skipRender){
+      setSkipRender(false);
+    }
+
+    if(!skipRender){
+      audioPlayer.current.pause()
+      audioPlayer.current.load()
+      audioPlayer.current.play().catch((e) => console.log(e))
+      setIsPlaying(true);
+    }
+    return () => {
+      controller?.abort()
+      console.log('cleaned up')
+    }
     
-    
-  }, [audioPlayer?.current])
-
-  
 
 
+  }, [props.currentSong])
 
   // Calculate the duration to timestamp
   const calculateTime = (secs) => {
@@ -39,10 +65,11 @@ const PlayerControls = (props) => {
     return `${returnedMinutes} : ${returnedSeconds}`;
   }
 
+  
   // changes range of progress bar
   const changeRange = () => {
     audioPlayer.current.currentTime = progressBar.current.value;
-    progressBar.current.style.setProperty()
+    progressBar.current.style.setProperty('--progressbar', `${progressBar.current.value / duration * 100}%`)
     setCurrentTime(progressBar.current.value);
 
   }
@@ -58,23 +85,14 @@ const PlayerControls = (props) => {
     }
   }
 
-  // Updates Song
-  const updateSong = () => {
-    
-    audioPlayer.current.pause()
-    audioPlayer.current.load()
-    audioPlayer.current.play()
-    setIsPlaying(true)
-    
 
-  }
 
-  
 
     return (
       <div className='flex w-full'>
-          <audio controls ref={audioPlayer} id='player' onEnded={() => setIsPlaying(false)} onChange={updateSong} >
+          <audio ref={audioPlayer} id='player' onEnded={() => setIsPlaying(false)} >
             <source src={props.currentSong.src} type="audio/mpeg" />
+            Cannot play this audio
           </audio>
         <div>
           <img src={props.currentSong.img} alt="" className={`h-20 rounded-3xl ${isPlaying ? 'animate-spin' : ''}`}/>
@@ -95,7 +113,7 @@ const PlayerControls = (props) => {
           <ArrowPathRoundedSquareIcon className='h-10 w-6 mx-4 hidden md:block' />
           </div>
           <div className='flex justify-center pt-2'>
-            <span className='text-sm'>{calculateTime(currentTime)}</span><input ref={progressBar} defaultValue="0" onChange={changeRange} type="range" name="" id="" className='w-2/3' /><span className='text-sm'>{(duration && !isNaN(duration)) && calculateTime(duration)}</span>
+            <span className='text-sm'>{calculateTime(currentTime)}</span><input ref={progressBar} defaultValue="0" onChange={changeRange} type="range" name="" id="" className=' progressbar' /><span className='text-sm'>{(duration && !isNaN(duration)) && calculateTime(duration)}</span>
           </div>
         </div>
         
