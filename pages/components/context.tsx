@@ -1,7 +1,8 @@
 import { createContext, useContext, useState } from "react";
 import { songs } from "./songs";
 
-const AppContext = createContext();
+
+const AppContext = createContext(null);
 
 export function AppWrapper({ children }){
     const [currentSong, setCurrentSong] = useState(songs[0])
