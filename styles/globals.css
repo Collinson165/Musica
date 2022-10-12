@@ -1,3 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.hide-scroll-bar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.hide-scroll-bar::-webkit-scrollbar {
+  display: none;
+}
+
 html,
 body {
   padding: 0;
@@ -21,6 +33,8 @@ a {
   }
   body {
     color: white;
-    background: black;
+    background: #1d2124;
   }
 }
+
+
