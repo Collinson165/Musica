@@ -6,14 +6,25 @@ import { useEffect, useRef, useState } from 'react';
 const PlayerControls = (props) => {
   const [currentTime, setCurrentTime ] = useState(0)
   const [ duration, setDuration] = useState(0)
+  const [nowPlaying, setNowPlaying] = useState('/images/albums/bandana.jpg');
+  const [isPlaying , setIsPlaying] = useState(false);
+  const [nowPlayingSong, setNowPlayingSong] = useState('/songs/bandana.mp3');
 
+  const audioPlayer = useRef(null);
   const progressBar = useRef(null)
 
 
   useEffect(() => {
-    setDuration(props.audioPlayer.current.duration);
+    
+    setDuration(audioPlayer.current.duration);
     progressBar.current.max = duration;
-  }, [props.audioPlayer?.current?.loadmetadata, props.audioPlayer?.current?.readyState])
+  }, [audioPlayer?.current?.loadmetadata, audioPlayer?.current?.readyState])
+
+
+  useEffect(() => {
+    
+    
+  }, [audioPlayer?.current])
 
   
 
@@ -28,10 +39,33 @@ const PlayerControls = (props) => {
     return `${returnedMinutes} : ${returnedSeconds}`;
   }
 
+  // changes range of progress bar
   const changeRange = () => {
-    props.audioPlayer.current.currentTime = progressBar.current.value;
+    audioPlayer.current.currentTime = progressBar.current.value;
     progressBar.current.style.setProperty()
     setCurrentTime(progressBar.current.value);
+
+  }
+
+   // Function for playing and pausing. Passed to Playercontrols component
+   const handlePlayPause = () => {
+    if (isPlaying){
+      audioPlayer.current.pause()
+      setIsPlaying(false)
+    } else {
+      setIsPlaying(true)
+      audioPlayer.current.play()
+    }
+  }
+
+  // Updates Song
+  const updateSong = () => {
+    
+    audioPlayer.current.pause()
+    audioPlayer.current.load()
+    audioPlayer.current.play()
+    setIsPlaying(true)
+    
 
   }
 
@@ -39,8 +73,11 @@ const PlayerControls = (props) => {
 
     return (
       <div className='flex w-full'>
+          <audio controls ref={audioPlayer} id='player' onEnded={() => setIsPlaying(false)} onChange={updateSong} >
+            <source src={props.currentSong.src} type="audio/mpeg" />
+          </audio>
         <div>
-          <img src={props.nowPlaying} alt="" className={`h-20 rounded-3xl ${props.isPlaying ? 'animate-spin' : ''}`}/>
+          <img src={props.currentSong.img} alt="" className={`h-20 rounded-3xl ${isPlaying ? 'animate-spin' : ''}`}/>
         </div>
         <div className='w-full'>
           <div className='flex w-full items-center justify-center'>
@@ -51,7 +88,7 @@ const PlayerControls = (props) => {
 
           <BackwardIcon className='h-10 w-6 mx-4 hidden md:block' />
 
-          {props.isPlaying ? <PauseIcon  className='h-10 w-10 mx-4'  onClick={props.handlePlayPause} /> :<PlayCircleIcon className='h-10 w-10 mx-4 animate-pulse' onClick={props.handlePlayPause} />}
+          {isPlaying ? <PauseIcon  className='h-10 w-10 mx-4'  onClick={handlePlayPause} /> :<PlayCircleIcon className='h-10 w-10 mx-4 animate-pulse' onClick={handlePlayPause} />}
 
           <ForwardIcon className='h-10 w-6 mx-4' />
 

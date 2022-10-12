@@ -9,16 +9,17 @@ import axios from 'axios'
 import { songs } from './components/songs'
 
 export default function Home() {
-  const [nowPlaying, setNowPlaying] = useState('/images/albums/bandana.jpg');
-  const [nowPlayingSong, setNowPlayingSong] = useState('/songs/bandana.mp3');
+  
+  
   const [data, setData] = useState([]);
   const [newSong, setNew] = useState([]);
   const [song, setSong] = useState(songs);
-  const [isPlaying , setIsPlaying] = useState(false);
+  const [currentSong, setCurrentSong] = useState(songs[0])
   
   
   
-  const audioPlayer = useRef(null);
+  
+  
 
   
 
@@ -26,29 +27,21 @@ export default function Home() {
 
 
   // sets the nowPlaying Album art into the Audio Player section
-  const Playing = (img, src) => {
+  const Playing = (img, src, song) => {
+    setCurrentSong(song)
     
-    audioPlayer.current.pause()
-    audioPlayer.current.load()
+    // audioPlayer.current.pause()
+    // audioPlayer.current.load()
     // setDuration(audioPlayer.current.duration)
-    audioPlayer.current.play()
+    // audioPlayer.current.play()
    
-    setIsPlaying(true)
-    setNowPlaying(img)
-    setNowPlayingSong(src)
+    // setIsPlaying(true)
+    // setNowPlaying(img)
+    // setNowPlayingSong(src)
     
   }
 
-  // Function for playing and pausing. Passed to Playercontrols component
-  const handlePlayPause = () => {
-    if (isPlaying){
-      audioPlayer.current.pause()
-      setIsPlaying(false)
-    } else {
-      setIsPlaying(true)
-      audioPlayer.current.play()
-    }
-  }
+ 
 
   
 
@@ -255,11 +248,9 @@ export default function Home() {
       
 
       <div className='flex items-center h-32 px-5 md:px-16 py-4 w-full fixed bottom-0 backdrop-blur-sm bg-gray-600/10 z-[499]'>
-          <audio ref={audioPlayer} id='player' onEnded={() => setIsPlaying(false)} >
-            <source src={nowPlayingSong} type="audio/mpeg" />
-          </audio>
+          
         
-          <PlayerControls handlePlayPause={handlePlayPause} nowPlaying={nowPlaying} isPlaying={isPlaying} audioPlayer={audioPlayer} />
+          <PlayerControls currentSong={currentSong} />
         
       </div>
 
