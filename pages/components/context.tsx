@@ -9,7 +9,7 @@ export function AppWrapper({ children }){
 
 
     return (
-        <AppContext.Provider value={{currentSong, setCurrentSong}}>
+        <AppContext.Provider value={[currentSong, setCurrentSong]}>
             {children}
         </AppContext.Provider>
     );

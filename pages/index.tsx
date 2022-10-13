@@ -16,7 +16,7 @@ export default function Home() {
   const [data, setData] = useState([]);
   const [newSong, setNew] = useState([]);
   const [song, setSong] = useState(songs);
-  const {currentSong, setCurrentSong} = useAppContext();
+  const [currentSong, setCurrentSong] = useAppContext();
   
   
   

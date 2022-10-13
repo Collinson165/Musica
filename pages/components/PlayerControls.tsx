@@ -49,7 +49,6 @@ const PlayerControls = (props) => {
     }
     return () => {
       controller?.abort()
-      console.log('cleaned up')
     }
     
 
