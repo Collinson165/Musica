@@ -4,11 +4,11 @@ import Image from 'next/image'
 import { HeartIcon} from '@heroicons/react/24/outline'
 import PlayerControls from './components/PlayerControls'
 import Card from './components/Card'
-import { useEffect, useRef, useState } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import axios from 'axios'
 import { songs } from './components/songs'
 import { topCharts } from './components/top'
-import { useAppContext } from './components/context'
+import { AppContext } from './components/context'
 
 export default function Home() {
   
@@ -16,7 +16,7 @@ export default function Home() {
   const [data, setData] = useState([]);
   const [newSong, setNew] = useState([]);
   const [song, setSong] = useState(songs);
-  const [currentSong, setCurrentSong] = useAppContext();
+  const {currentSong, play} = useContext(AppContext)
   
   
   
@@ -30,7 +30,7 @@ export default function Home() {
 
   // sets the nowPlaying Album art into the Audio Player section
   const Playing = (song) => {
-    setCurrentSong(song)
+    play(song)
   }
 
 
@@ -262,9 +262,9 @@ export default function Home() {
       </main>
       
 
-      <div className='flex items-center h-32 px-5 md:px-16 py-4 w-full fixed bottom-0 backdrop-blur-sm bg-gray-600/10 z-[499]'>
+      {/* <div className='flex items-center h-32 px-5 md:px-16 py-4 w-full fixed bottom-0 backdrop-blur-sm bg-gray-600/10 z-[499]'>
           <PlayerControls currentSong={currentSong} />
-      </div>
+      </div> */}
 
       
     </div>
