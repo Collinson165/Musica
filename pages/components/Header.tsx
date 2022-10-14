@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
+import { Bars2Icon } from "@heroicons/react/24/solid";
 import { useState } from "react";
 import Menu from "./SideMenu";
 
@@ -19,7 +20,7 @@ const Header = () => {
             <input type="search" name="search" id="" placeholder='search' className='bg-transparent' />
           </div>
           <div className="md:hidden text-3xl" onClick={() => setMobileMenu(prev => !prev)}>
-            M
+            <Bars2Icon className="h-10" />
           </div>
         </nav>
         

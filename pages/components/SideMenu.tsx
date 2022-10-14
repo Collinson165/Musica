@@ -1,9 +1,10 @@
+import { XMarkIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
 
 const Menu = (props) => {
     return ( 
         <div className="h-screen md:hidden fixed w-full bg-[#1d2124] z-[500] px-2 pt-10 font-[roboto]">
-            <div className="text-3xl flex justify-end" onClick={() => props.menu(false)}>X</div>
+            <div className="text-3xl flex justify-end" onClick={() => props.menu(false)}><XMarkIcon className="h-10" /></div>
 
             <div className="px-5">
                 <Link href="/"><div className="flex items-center py-5"><img src="/images/Home.svg" alt="" /> Home</div></Link>
