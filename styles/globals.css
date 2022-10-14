@@ -45,4 +45,12 @@ a {
 
 }
 
+.volumebar {
+  --volumeBar : 66%;
+
+  width: var(--volumeBar);;
+
+
+}
+
 
