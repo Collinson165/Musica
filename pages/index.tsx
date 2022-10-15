@@ -18,21 +18,6 @@ export default function Home() {
   const [newSong, setNew] = useState([]);
   const [song, setSong] = useState(songs);
   const {currentSong, play} = useContext(AppContext)
-  
-  
-  
-  
-  
-
-  
-
-
-
-
-  // sets the nowPlaying Album art into the Audio Player section
-  const Playing = (song) => {
-    play(song)
-  }
 
 
  
@@ -127,7 +112,7 @@ export default function Home() {
                 return (
                   <div key={song.id}>
                     
-                    <div className='flex justify-between w-72 items-center p-2 my-4 rounded-lg bg-[#1a1e1f] cursor-pointer '>
+                    <div className='hover:animate-pulse flex justify-between w-full md:w-72 items-center p-2 my-4 rounded-lg bg-[#1a1e1f] cursor-pointer '>
                     <Link href={`albums/${song.id}`}>
                       <div className='flex overflow-hidden'>
                         <img src={song.img} alt="" className='max-h-16 z-50' />
@@ -228,7 +213,7 @@ export default function Home() {
           {newSong && newSong.map(song => {
             return (
               <div key={song.track.id}>
-                <Card image={song.track.album.images[1].url} title={song.track.album.name} Playing={Playing} />
+                <Card image={song.track.album.images[1].url} title={song.track.album.name} />
               </div>
             )
           })}
@@ -236,7 +221,7 @@ export default function Home() {
           {song && song.map(song => {
             return (
               <div key={song.title} className="inline-block">
-                <Card song={song} image={song.img} title={song.title} Playing={Playing} />
+                <Card song={song} image={song.img} title={song.title} />
               </div>
             )
           })}
@@ -244,12 +229,12 @@ export default function Home() {
 
           <h2 className='pt-10 pb-2 text-xl'>Hot Albums.</h2>
           
-          <Card image={"/images/Lead-image.png"} title={'Raves'} Playing={Playing}/>
-          <Card image={"/images/song.png"} title={'Raves'} Playing={Playing} />
-          <Card image={"/images/song-1.png"} title={'Raves'} Playing={Playing}/>
-          <Card image={"/images/song-2.png"} title={'Raves'} Playing={Playing} />
-          <Card image={"/images/song-3.png"} title={'Raves'} Playing={Playing}/>
-          <Card image={"/images/song-4.png"} title={'Raves'} Playing={Playing} />
+          <Card image={"/images/Lead-image.png"} title={'Raves'} />
+          <Card image={"/images/song.png"} title={'Raves'}  />
+          <Card image={"/images/song-1.png"} title={'Raves'} />
+          <Card image={"/images/song-2.png"} title={'Raves'}  />
+          <Card image={"/images/song-3.png"} title={'Raves'} />
+          <Card image={"/images/song-4.png"} title={'Raves'}  />
         </div>
 
        

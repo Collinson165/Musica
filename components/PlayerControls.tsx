@@ -18,16 +18,16 @@ const PlayerControls = (props) => {
   const {currentSong, play, playNext, playPrevious, isMute, setIsMute} = useContext(AppContext)
 
 
-  useEffect(() => {
-    const seconds = Math.floor(audioPlayer.current.duration);
-    if(!isNaN(seconds)){
-      setDuration(seconds);
-      const time = duration
-      progressBar.current.max = seconds;
-      console.log(calculateTime(time))
-    }
+  // useEffect(() => {
+  //   const seconds = Math.floor(audioPlayer.current.duration);
+  //   if(!isNaN(seconds)){
+  //     setDuration(seconds);
+  //     const time = duration
+  //     progressBar.current.max = seconds;
+  //     console.log(calculateTime(time))
+  //   }
     
-  }, [duration, audioPlayer?.current?.loadmetadata, audioPlayer?.current?.readyState])
+  // }, [duration, audioPlayer?.current?.loadmetadata, audioPlayer?.current?.readyState])
 
   useEffect(() => {
     if(isMute){
@@ -58,8 +58,6 @@ const PlayerControls = (props) => {
     if(!skipRender){
       audioPlayer.current.pause()
       audioPlayer.current.load()
-      audioPlayer.current.play().catch((e) => console.log(e))
-      setIsPlaying(true);
     }
     return () => {
       controller?.abort()
@@ -107,8 +105,18 @@ const PlayerControls = (props) => {
   }
 
   const songEnd = () => {
+    audioPlayer.current.pause()
     setIsPlaying(false)
     playNext()
+  }
+
+  const songStart = () => {
+    const seconds = Math.floor(audioPlayer.current.duration);
+    setDuration(seconds);
+    progressBar.current.max = seconds;
+    audioPlayer.current.play().catch((e) => console.log(e))
+    setIsPlaying(true);
+
   }
 
 
@@ -116,12 +124,12 @@ const PlayerControls = (props) => {
 
     return (
       <div className='flex w-full'>
-          <audio ref={audioPlayer} id='player' onEnded={songEnd} >
+          <audio ref={audioPlayer} id='player' onCanPlay={songStart} onEnded={songEnd} >
             <source src={currentSong.src} type="audio/mpeg" />
             Cannot play this audio
           </audio>
         <div>
-          <img src={currentSong.img} alt="" className={`h-20 rounded-3xl ${isPlaying ? 'animate-spin' : ''}`}/>
+          <img src={currentSong.img} alt="" className={`h-14 md:h-20 rounded-3xl ${isPlaying ? 'animate-spin' : ''}`}/>
         </div>
 
         <div className='w-full'>
