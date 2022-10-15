@@ -5,7 +5,7 @@ import path from "path";
 import fs from "fs/promises";
 import { HeartIcon as HeartIconSolid, MusicalNoteIcon, PlayCircleIcon } from "@heroicons/react/24/solid";
 import { HeartIcon } from "@heroicons/react/24/outline";
-import { AppContext } from '../components/context'
+import { AppContext } from '../../components/context'
 import { useContext } from "react";
 
 interface playlist{
@@ -26,7 +26,7 @@ interface collectionsInterface{
 }
 
 async function getData(){
-    const filePath = path.join(process.cwd(),'pages', 'components','data', 'collections.json');
+    const filePath = path.join(process.cwd(), 'components','data', 'collections.json');
     const fileData = await fs.readFile(filePath);
     const data = JSON.parse(fileData.toString());
     return data;

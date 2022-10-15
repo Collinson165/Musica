@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { XMarkIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
 

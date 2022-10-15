@@ -1,6 +1,6 @@
 import '../styles/globals.css'
-import  AppContextProvider  from './components/context'
-import Layout from './components/Layout'
+import  AppContextProvider  from '../components/context'
+import Layout from '../components/Layout'
 
 function MyApp({ Component, pageProps }) {
   return (
