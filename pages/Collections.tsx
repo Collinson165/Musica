@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import Link from "next/link";
-import collection from "./components/data/collections.json";
+import collection from "../components/data/collections.json";
 
 const Collections = () => {
     return ( 

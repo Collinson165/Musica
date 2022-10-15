@@ -1,16 +1,15 @@
 /* eslint-disable @next/next/no-img-element */
-import Head from 'next/head'
-import Image from 'next/image'
-import { HeartIcon} from '@heroicons/react/24/outline'
-import PlayerControls from './components/PlayerControls'
-import Card from './components/Card'
-import { useContext, useEffect, useRef, useState } from 'react'
-import axios from 'axios'
-import { songs } from './components/songs'
-import { topCharts } from './components/top'
-import { AppContext } from './components/context'
-import collection from "./components/data/collections.json";
-import Link from 'next/link'
+import Head from 'next/head';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useContext, useEffect, useRef, useState } from 'react';
+import axios from 'axios';
+import { HeartIcon} from '@heroicons/react/24/outline';
+import Card from '../components/Card';
+import { songs } from '../components/data/songs';
+import collection from "../components/data/collections.json";
+import { AppContext } from '../components/context';
+
 
 export default function Home() {
   
