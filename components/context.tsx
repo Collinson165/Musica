@@ -9,33 +9,42 @@ const AppContextProvider = (props) => {
     const [currentSongIndex, setCurrentSongIndex] = useState(0)
     const [currentSong, setCurrentSong] = useState(playlist[currentSongIndex]);
     const [isMute, setIsMute] = useState(false)
+    
 
     const play = (song) => {
         setCurrentSong(song)
-        setCurrentSongIndex(songs.indexOf(song) + 1)
+        setCurrentSongIndex(playlist.indexOf(song) + 1)
     }
 
     const playNext =() => {
-        if (songs.length - 1 >= currentSongIndex){
+        let temp = currentSongIndex;
+        if (playlist.length - 1 > currentSongIndex){ 
+            temp++
             setCurrentSongIndex(prev => prev + 1)
-            setCurrentSong(songs[currentSongIndex])
+            setCurrentSong(playlist[temp])
         }else {
+            temp = 0
             setCurrentSongIndex(0)
+            setCurrentSong(playlist[temp])
         }
         
     }
 
     const playPrevious =() => {
-        if (songs.length - 1 > currentSongIndex){
+        let temp = currentSongIndex;
+        if (1 <= currentSongIndex){
+            temp--
             setCurrentSongIndex(prev => prev - 1)
-            setCurrentSong(songs[currentSongIndex])
-        }else if (currentSongIndex === -1) {
+            setCurrentSong(playlist[temp])
+        }else{
+            temp = 0
             setCurrentSongIndex(0)
+            setCurrentSong(playlist[temp])
         }
         
     }
     return (
-        <AppContext.Provider value={{currentSong, playlist, setPlaylist, play, playNext, playPrevious, isMute, setIsMute}}>
+        <AppContext.Provider value={{currentSong, setCurrentSong, playlist, setPlaylist, setCurrentSongIndex, play, playNext, playPrevious, isMute, setIsMute}}>
             {props.children}
         </AppContext.Provider>
     )

@@ -51,7 +51,7 @@ a {
 }
 
 .volumebar {
-  --volumeBar : 66%;
+  --volumebarwidth : 66%;
 
   width: var(--volumeBar);;
 

@@ -9,6 +9,7 @@ import { HeartIcon as HeartIconSolid } from '@heroicons/react/24/solid';
 import Card from '../components/Card';
 import { songs } from '../components/data/songs';
 import collection from "../components/data/collections.json";
+import useFetch from '../components/useFetch';
 
 
 export default function Home() {
@@ -18,6 +19,20 @@ export default function Home() {
   const [newSong, setNew] = useState([]);
   const [song, setSong] = useState(songs);
 
+
+  // API call for Top Charts
+  // const {data:topCharts, loading, error} = useFetch({
+  //   method: 'GET',
+  //     url: 'https://spotify23.p.rapidapi.com/playlist_tracks/',
+  //     params: {id: '37i9dQZEVXbMDoHDwVN2tF', offset: '0', limit: '3'},
+  //     headers: {
+  //       'X-RapidAPI-Key': 'ce2d22d55emsh44258fe5c59c9f7p175afajsn645a4e24eb59',
+  //       'X-RapidAPI-Host': 'spotify23.p.rapidapi.com'
+  //     }
+  // })
+
+
+  // API call for new RELEASE
 
  
 

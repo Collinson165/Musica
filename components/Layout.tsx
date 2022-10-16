@@ -23,7 +23,7 @@ const Layout = ({children}) => {
             <div className='h-28'>
 
             </div>
-            <div className='flex items-center h-24 md:h-32 px-5 lg:px-16 py-4 w-full fixed bottom-0 backdrop-blur-sm bg-gray-600/10 z-[499]'>
+            <div className='flex border-t border-t-gray-500/50 items-center h-24 md:h-32 px-5 lg:px-16 py-4 w-full fixed bottom-0 backdrop-blur-sm bg-gray-600/10 z-[499]'>
             <PlayerControls currentSong={currentSong} />
             </div>
         </div>
