@@ -5,8 +5,9 @@ import { songs } from "./data/songs";
 export const AppContext = createContext(null);
 
 const AppContextProvider = (props) => {
+    const [playlist, setPlaylist] = useState(songs)
     const [currentSongIndex, setCurrentSongIndex] = useState(0)
-    const [currentSong, setCurrentSong] = useState(songs[currentSongIndex]);
+    const [currentSong, setCurrentSong] = useState(playlist[currentSongIndex]);
     const [isMute, setIsMute] = useState(false)
 
     const play = (song) => {
@@ -34,7 +35,7 @@ const AppContextProvider = (props) => {
         
     }
     return (
-        <AppContext.Provider value={{currentSong, play, playNext, playPrevious, isMute, setIsMute}}>
+        <AppContext.Provider value={{currentSong, playlist, setPlaylist, play, playNext, playPrevious, isMute, setIsMute}}>
             {props.children}
         </AppContext.Provider>
     )
