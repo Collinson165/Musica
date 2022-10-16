@@ -63,9 +63,8 @@ function Albums(props: {
     specificAlbumData:collectionsInterface,
     hasError:boolean
 }){
-    const {play,playlist, setPlaylist} = useContext(AppContext)
+    const {play} = useContext(AppContext)
     const router = useRouter();
-    setPlaylist(props.specificAlbumData.playlist)
     if(props.hasError){
         return <h1 className="flex justify-center">Error! Try Another Parameter</h1>
     }
