@@ -5,10 +5,10 @@ import Link from 'next/link';
 import { useContext, useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import { HeartIcon} from '@heroicons/react/24/outline';
+import { HeartIcon as HeartIconSolid } from '@heroicons/react/24/solid';
 import Card from '../components/Card';
 import { songs } from '../components/data/songs';
 import collection from "../components/data/collections.json";
-import { AppContext } from '../components/context';
 
 
 export default function Home() {
@@ -17,7 +17,6 @@ export default function Home() {
   const [data, setData] = useState([]);
   const [newSong, setNew] = useState([]);
   const [song, setSong] = useState(songs);
-  const {currentSong, play} = useContext(AppContext)
 
 
  
@@ -72,15 +71,21 @@ export default function Home() {
     <div className="bg-[#1d2124]">
       
 
-      <main className="px-5 md:pl-20 py-5 font-[roboto]">
+      <main className="px-5 md:pl-20 py-5">
         <div className='md:flex'>
-          <div className='bg-[#609daf] rounded-[38px] h-[500px] md:w-fit md:h-fit'>
+          <div className='bg-[#609daf] bg-[url("/images/wave.svg")] bg-no-repeat bg-cover rounded-[38px] h-[500px] md:w-fit md:h-fit'>
             <div className="lg:absolute p-10 md:w-2/3 lg:w-1/3 overflow-hidden">
               <h2>Currated playlist</h2>
-              <div className='py-16 py-'>
-                <p className='text-5xl'>R & B Hits</p>
+              <div className='py-16 lg:py-10 py-'>
+                <p className='text-5xl font-bold'>R & B Hits</p>
                 <p>All mine, Lie again, Petty call me everyday, Out of time, No Love, Bad habit and so much more</p>
               </div>
+              <div className='flex items-center'>
+                <img src="/images/likes.png" alt="" />
+                <HeartIconSolid className='h-8 px-2' />
+                <span>35K LIKES</span>
+              </div>
+              
             </div>
             <img src="/images/Hero.png" alt="" className='hidden md:block' />
           </div>

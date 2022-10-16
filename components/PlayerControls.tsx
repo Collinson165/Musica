@@ -123,16 +123,21 @@ const PlayerControls = (props) => {
 
 
     return (
-      <div className='flex w-full'>
+      <div className='flex w-full justify-between'>
           <audio ref={audioPlayer} id='player' onCanPlay={songStart} onEnded={songEnd} >
             <source src={currentSong.src} type="audio/mpeg" />
             Cannot play this audio
           </audio>
-        <div>
+        <div className='flex'>
           <img src={currentSong.img} alt="" className={`h-14 md:h-20 rounded-3xl ${isPlaying ? 'animate-spin' : ''}`}/>
+          <div className='pl-2 md:hidden'>
+            <p className='font-bold'>{currentSong.title}</p>
+            <p className='text-sm'>{currentSong.artists}</p>
+          </div>
+          
         </div>
 
-        <div className='w-full'>
+        <div className='md:w-full'>
           <div className='flex w-full items-center justify-center'>
 
           <ArrowsRightLeftIcon className='h-10 w-6 mx-4 hidden md:block'  />
@@ -147,13 +152,13 @@ const PlayerControls = (props) => {
 
           
           </div>
-          <div className='flex justify-center pt-2'>
+          <div className='hidden md:flex justify-center pt-2'>
             <span className='text-sm'>{calculateTime(currentTime)}</span><input ref={progressBar} defaultValue="0" onChange={changeRange} type="range" name="" id="" className=' progressbar' /><span className='text-sm'>{(duration && !isNaN(duration)) && calculateTime(duration)}</span>
           </div>
         </div>
 
-        <div className='hidden md:flex items-center'>
-        {isMute ? <SpeakerXMarkIcon onClick={() => setIsMute(false)}  className='h-10 w-6 mx-4 hidden md:block' /> : <SpeakerWaveIcon onClick={() => setIsMute(true)} className='h-10 w-6 mx-4 hidden md:block'/>}
+        <div className='hidden lg:flex items-center'>
+        {isMute ? <SpeakerXMarkIcon onClick={() => setIsMute(false)}  className='h-10 w-6 hidden md:block' /> : <SpeakerWaveIcon onClick={() => setIsMute(true)} className='h-10 w-6 hidden md:block'/>}
         <input ref={volumeBar} className="voulumebar" type="range" name="volume" id="" onChange={changeVolume} />
         </div>
         

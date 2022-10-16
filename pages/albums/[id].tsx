@@ -63,8 +63,9 @@ function Albums(props: {
     specificAlbumData:collectionsInterface,
     hasError:boolean
 }){
-    const {play} = useContext(AppContext)
+    const {play,playlist, setPlaylist} = useContext(AppContext)
     const router = useRouter();
+    setPlaylist(props.specificAlbumData.playlist)
     if(props.hasError){
         return <h1 className="flex justify-center">Error! Try Another Parameter</h1>
     }
@@ -115,14 +116,14 @@ function Albums(props: {
                 {props.specificAlbumData && props.specificAlbumData.playlist.map(song => {
                     return(
                         <div key={song.src}>
-                            <div className="flex justify-between bg-[#25292c] p-2 my-2 rounded-xl">
-                                <div className="flex items-center w-1/2">
-                                    <img src={song.img} alt="" className="h-12 rounded-lg cursor-pointer"  onClick={play(song)}/>
-                                    <HeartIcon className="h-6 px-2" />
+                            <div className="flex justify-start md:justify-between bg-[#25292c] p-2 my-2 rounded-xl">
+                                <div className="flex items-center md:w-1/2">
+                                    <img src={song.img} alt="" className="h-12 rounded-lg cursor-pointer"  onClick={() => play(song)}/>
+                                    <HeartIcon className="hidden md:block h-6 px-2" />
                                 </div>
-                                <div className="flex justify-between w-1/2">
-                                    <p className="text-center">{song.title}</p>
-                                    <p className="text-center">{song.artists}</p>
+                                <div className="px-2 md:flex justify-between md:w-1/2">
+                                    <p className="font-bold md:font-normal">{song.title}</p>
+                                    <p className="text-sm md:text-md">{song.artists}</p>
                                 </div>
                                 
                                 
