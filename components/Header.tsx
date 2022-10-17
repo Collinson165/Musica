@@ -8,6 +8,7 @@ import Menu from "./SideMenu";
 const Header = () => {
 
   const [mobileMenu, setMobileMenu] = useState(false)
+  const [search, setSearch] = useState('')
 
     return ( 
       <div>
@@ -18,7 +19,7 @@ const Header = () => {
           </div>
           <div className='mx-10 hidden md:flex'>
             <MagnifyingGlassIcon className='h-4 w-4 m-2' />
-            <input type="search" name="search" id="" placeholder='search' className='bg-transparent' />
+            <input type="search" value={search} onChange={e => setSearch(e.target.value)} name="search" id="" placeholder='search' className='bg-transparent' />
           </div>
           <div className="md:hidden text-3xl" onClick={() => setMobileMenu(prev => !prev)}>
             <Bars2Icon className="h-10" />

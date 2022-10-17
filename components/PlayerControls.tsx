@@ -5,19 +5,20 @@ import { useContext, useEffect, useRef, useState } from 'react';
 import { AppContext } from './context';
 
 
-const PlayerControls = (props) => {
+const PlayerControls = () => {
   const [currentTime, setCurrentTime ] = useState(0);
   const [duration, setDuration] = useState(1);
   const [isPlaying , setIsPlaying] = useState(false);
   const [skipRender, setSkipRender] = useState(true);
   const [isRepeat, setIsRepeat] = useState(false)
-  const [volume, setVolume] = useState(0.5)
+  // const [volume, setVolume] = useState(0.6)
+  const volume = useRef(0.6)
   const audioPlayer = useRef(null);
   const progressBar = useRef(null);
   const volumeBar = useRef(null);
   const animationRef = useRef(null)
 
-  const {currentSong,setCurrentSong, setCurrentSongIndex, play, playNext, playPrevious, playlist, isMute, setIsMute} = useContext(AppContext)
+  const {currentSong, setCurrentSong, setCurrentSongIndex, playNext, playPrevious, playlist, isMute, setIsMute} = useContext(AppContext)
 
 
   // useEffect(() => {
@@ -40,17 +41,6 @@ const PlayerControls = (props) => {
   }, [isMute])
 
 
-
-  // useEffect(() => {
-  //   const seconds = Math.floor(audioPlayer.current.duration);
-  //   if(seconds){
-  //     setDuration(seconds);
-  //     progressBar.current.max = seconds;
-  //     console.log(audioPlayer.current.duration)
-  //   } 
-  // }, [props.currentSong])
-
-
   useEffect(() => {
     let controller = new AbortController();
     if(skipRender){
@@ -61,12 +51,10 @@ const PlayerControls = (props) => {
       audioPlayer.current.pause()
       audioPlayer.current.load()
     }
+
     return () => {
       controller?.abort()
     }
-    
-
-
   }, [currentSong])
 
   // Calculate the duration to timestamp
@@ -84,18 +72,19 @@ const PlayerControls = (props) => {
     audioPlayer.current.currentTime = progressBar.current.value;
     progressBar.current.style.setProperty('--progressbar', `${progressBar.current.value / duration * 100}%`)
     setCurrentTime(progressBar.current.value);
-
   }
 
   // changes volume
-  const changeVolume = () => {
-    audioPlayer.current.volume = volumeBar.current.value;
-    volumeBar.current.style.setProperty('--volumebar', `${volumeBar.current.value/volume * 100}%`)
-    setVolume(volumeBar.current.value);
-
+  const changeVolume = (e) => {
+    let newVolume
+    volume.current = e.target.valueAsNumber
+    // setVolume(e.target.valueAsNumber)
+    newVolume = volume
+    audioPlayer.current.volume = volume.current
+    console.log(newVolume, volume)
   }
 
-   // Function for playing and pausing. Passed to Playercontrols component
+   // Function for playing and pausing
    const handlePlayPause = () => {
     if (isPlaying){
       audioPlayer.current.pause()
@@ -106,6 +95,7 @@ const PlayerControls = (props) => {
     }
   }
 
+  // firess when a song ends. Plays the next Song of repeat is disabled
   const songEnd = () => {
     if(!isRepeat){
       audioPlayer.current.pause()
@@ -117,6 +107,8 @@ const PlayerControls = (props) => {
     
   }
 
+
+  // fires when the song can begin playing
   const songStart = () => {
     const seconds = Math.floor(audioPlayer.current.duration);
     setDuration(seconds);
@@ -126,19 +118,22 @@ const PlayerControls = (props) => {
     setIsPlaying(true);
   }
 
+  // Picks a random song in the playlist
   const randomSong = () => {
     const randomIndex = Math.floor(Math.random() * playlist.length)
     setCurrentSongIndex(randomIndex)
     setCurrentSong(playlist[randomIndex])
-    console.log(randomIndex)
   }
 
+  // updates the progress bar knob while the song is playing
   const whilePlaying = () => {
-    progressBar.current.value = audioPlayer?.current?.currentTime;
-    progressBar.current.style.setProperty('--progressbar', `${progressBar.current.value / duration * 100}%`)
-    setCurrentTime(progressBar.current.value);
-    animationRef.current = requestAnimationFrame(whilePlaying)
-    
+    if(audioPlayer?.current?.play){
+      progressBar.current.value = audioPlayer?.current?.currentTime;
+      progressBar.current.style.setProperty('--progressbar', `${progressBar.current.value / duration * 100}%`)
+      setCurrentTime(progressBar.current.value);
+      animationRef.current = requestAnimationFrame(whilePlaying)
+    }
+      
   }
 
 
@@ -181,7 +176,7 @@ const PlayerControls = (props) => {
 
         <div className='hidden lg:flex items-center'>
         {isMute ? <SpeakerXMarkIcon onClick={() => setIsMute(false)}  className='h-10 w-6 hidden md:block' /> : <SpeakerWaveIcon onClick={() => setIsMute(true)} className='h-10 w-6 hidden md:block'/>}
-        <input ref={volumeBar} className="bg-yellow-500 appearance-none rounded-lg h-1 cursor-pointer voulumebar" type="range" name="volume" id="" onChange={changeVolume} />
+        <input ref={volumeBar} min={0} max={1} step={0.02} value={volume.current} onChange={e => changeVolume(e)} className="bg-yellow-500 appearance-none rounded-lg h-1 cursor-pointer voulumebar" type="range" name="volume" id=""/>
         </div>
         
       </div> 
