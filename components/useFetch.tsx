@@ -37,7 +37,7 @@ const useFetch = (options) => {
         
         axios.request(options).then(function (response) {
             console.log(response.data);
-            setData(response.data.items)
+            setData(response.data)
             setLoading(false)
         }).catch(function (error) {
             setLoading(false)
@@ -50,7 +50,7 @@ const useFetch = (options) => {
         }
 
 
-    }, [options])
+    }, [])
 
 
     return {data, loading, error};

@@ -10,6 +10,7 @@ import Card from '../components/Card';
 import { songs } from '../components/data/songs';
 import collection from "../components/data/collections.json";
 import useFetch from '../components/useFetch';
+import Tracks from '../components/Tracks';
 
 
 export default function Home() {
@@ -18,6 +19,23 @@ export default function Home() {
   const [data, setData] = useState([]);
   const [newSong, setNew] = useState([]);
   const [song, setSong] = useState(songs);
+
+
+  const {data:charts , loading, error} = useFetch(
+    {
+      method: 'GET',
+      url: 'https://shazam.p.rapidapi.com/charts/track',
+      params: {locale: 'en-US', pageSize: '20', startFrom: '0'},
+      headers: {
+        'X-RapidAPI-Key': process.env.RapidAPI,
+        'X-RapidAPI-Host': 'shazam.p.rapidapi.com'
+      }
+    }
+  )
+
+  
+
+
 
 
   // API call for Top Charts
@@ -250,12 +268,21 @@ export default function Home() {
           <h2 className='pt-10 pb-2 text-xl'>Hot Albums.</h2>
           
           <Card image={"/images/Lead-image.png"} title={'Raves'} />
-          <Card image={"/images/song.png"} title={'Raves'}  />
-          <Card image={"/images/song-1.png"} title={'Raves'} />
-          <Card image={"/images/song-2.png"} title={'Raves'}  />
-          <Card image={"/images/song-3.png"} title={'Raves'} />
-          <Card image={"/images/song-4.png"} title={'Raves'}  />
+          <Card image={"/images/song.png"} title={'Lonely and Lost'}  />
+          <Card image={"/images/song-1.png"} title={'Afro Legend'} />
+          <Card image={"/images/song-2.png"} title={'Desperations'}  />
+          <Card image={"/images/song-3.png"} title={'Utopia'} />
+          <Card image={"/images/song-4.png"} title={'The Mountain'}  />
         </div>
+
+        <h2 className='pt-10 pb-2 text-xl'>Trending</h2>
+        {charts && charts.tracks.map(chart => {
+          return (
+            <div key={chart.key} className="inline-block">
+            <Tracks song={chart} image={chart.images.coverart} title={chart.title} />
+            </div>
+          )
+        })}
 
        
         
