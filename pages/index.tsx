@@ -27,7 +27,7 @@ export default function Home() {
       url: 'https://shazam.p.rapidapi.com/charts/track',
       params: {locale: 'en-US', pageSize: '20', startFrom: '0'},
       headers: {
-        'X-RapidAPI-Key': process.env.RapidAPI,
+        'X-RapidAPI-Key': 'ce2d22d55emsh44258fe5c59c9f7p175afajsn645a4e24eb59',
         'X-RapidAPI-Host': 'shazam.p.rapidapi.com'
       }
     }
