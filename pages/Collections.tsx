@@ -10,7 +10,7 @@ const Collections = () => {
             url: 'https://shazam.p.rapidapi.com/songs/list-recommendations',
             params: {key: '484129036', locale: 'en-US'},
             headers: {
-              'X-RapidAPI-Key': process.env.RapidAPI,
+              'X-RapidAPI-Key': 'ce2d22d55emsh44258fe5c59c9f7p175afajsn645a4e24eb59',
               'X-RapidAPI-Host': 'shazam.p.rapidapi.com'
             }
           }  
